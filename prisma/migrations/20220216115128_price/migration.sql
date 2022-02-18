@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Entry" ADD COLUMN     "price" INTEGER NOT NULL DEFAULT 0;
+
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "budgetLimitPerMonth" INTEGER NOT NULL DEFAULT 1000;

@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model User {
+  id                  String   @id @unique @default(cuid())
+  name                String?
+  email               String   @unique
+  password            String
+  createdAt           DateTime @default(now())
+  entries             Entry[]
+  role                Role     @default(USER)
+  calorieLimitPerDay  Int      @default(2100)
+  budgetLimitPerMonth Int      @default(1000)
+}
+
+model Entry {
+  id        String    @id @unique @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+  name      String
+  calories  Int
+  price     Int       @default(0)
+  User      User      @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+enum Role {
+  ADMIN
+  USER
+}
